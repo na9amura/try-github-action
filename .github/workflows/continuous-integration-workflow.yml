@@ -28,14 +28,16 @@ jobs:
           apt update
           apt install -y build-essential patch zlib1g-dev liblzma-dev nodejs yarn default-libmysqld-dev
           gem install bundler
-      - name: bundle install
-        run: bundle install --jobs=4
+      - name: cache gems
+        uses: actions/cache@v1
         with:
-          path: ~/.bundle
-          key: bundle-${{ hashFiles('Gemfile.lock') }}
+          path: ~/bundle
+          key: gems-${{ hashFiles('Gemfile.lock') }}
           restore-keys: |
-            bundle-${{ hashFiles('Gemfile.lock') }}
-            bundle-
+            gems-${{ hashFiles('Gemfile.lock') }}
+            gems-
+      - name: bundle install
+        run: bundle install --jobs=4 --path=~/bundle
       - name: db setup
         run: bin/rails db:setup
         env:
