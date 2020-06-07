@@ -26,7 +26,7 @@ jobs:
       - name: install libraries
         run: |
           apt-get update
-          apt-get install -y build-essential patch zlib1g-dev liblzma-dev nodejs yarn
+          apt-get install -y build-essential patch zlib1g-dev liblzma-dev nodejs yarn libmysqlclient-dev
           gem install bundler
       - name: bundle install
         run: bundle install --jobs=4
