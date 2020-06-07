@@ -23,6 +23,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+      - name: install Bundler
+        run: gem install bundler
       - name: bundle install
         run: bundle install --jobs=4
       - name: db setup
