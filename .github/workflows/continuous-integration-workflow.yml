@@ -30,11 +30,12 @@ jobs:
           gem install bundler
       - name: bundle install
         run: bundle install --jobs=4
-        path: ~/.bundle
-        key: bundle-${{ hashFiles('Gemfile.lock') }}
-        restore-keys: |
-          bundle-${{ hashFiles('Gemfile.lock') }}
-          bundle-
+        with:
+          path: ~/.bundle
+          key: bundle-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: |
+            bundle-${{ hashFiles('Gemfile.lock') }}
+            bundle-
       - name: db setup
         run: bin/rails db:setup
         env:
