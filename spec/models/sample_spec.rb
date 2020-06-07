@@ -4,9 +4,7 @@ RSpec.describe Sample, type: :model do
   describe 'samples' do
     describe 'pass' do
       it { expect(1 + 1).to eq 2 }
-    end
-    describe 'fails' do
-      it { expect(2 + 2).to eq 5 }
+      it { expect(2 + 2).not_to eq 5 }
     end
   end
 
