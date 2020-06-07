@@ -1,0 +1,42 @@
+name: CI
+on: push
+  # paths:
+  #   - 'app/**'
+env:
+  RAILS_ENV: test
+defaults:
+  run:
+    shell: bash
+    working-directory: ./
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+    container: ruby:2.7-slim
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3360
+    timeout-minutes: 360 # minutes
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: bundle install
+        run: bundle install --jobs=4
+      - name: db setup
+        run: bin/rails db:setup
+        env:
+          DATABASE_URL: "mysql2://root:root@mysql/try_github_action_test"
+      - name: rspec
+        run: bin/rspec
+        env:
+          DATABASE_URL: "mysql2://root:root@mysql/try_github_action_test"
+  # strategy:
+  #   matrix:
+  #     os: [macos-latest, windows-latest, ubuntu-18.04]
+  #     node: [4, 6, 8, 10]
+  #   fail-fast: true
+  #   max-parallel: 2
+  # continue-on-error: false
